@@ -35,7 +35,7 @@ $armParameters = @{
     aadClientApplicationId = $ClientApplicationId;
   }
 
-New-AzureRmResourceGroupDeployment `
+New-AzResourceGroupDeployment `
   -ResourceGroupName $ResourceGroupName `
   -TemplateFile "$PSScriptRoot\servicefabric.json" `
   -Mode Incremental `

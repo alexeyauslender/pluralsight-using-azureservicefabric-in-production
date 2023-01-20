@@ -84,7 +84,10 @@
       "sku": {
         "name": "Standard_LRS"
       },
-      "kind": "Storage"
+      "kind": "Storage",
+      "properties": {
+        "allowBlobPublicAccess": false
+      }
     },
     {
       "apiVersion": "2016-01-01",

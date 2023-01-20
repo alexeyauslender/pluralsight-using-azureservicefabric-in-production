@@ -25,8 +25,8 @@ Write-Host "input"
 Write-Host "  cert: $certPath"
 Write-Host "  pass: $pass"
 Write-Host "  key: $keyPath"
-openssl pkcs12 -in $certPath -nocerts -nodes -out $keyPath -passin pass:$pass
-openssl pkcs12 -in $certPath -clcerts -nokeys -out $crtPath -passin pass:$pass
+& 'C:\Program Files\Git\usr\bin\openssl.exe' pkcs12 -in $certPath -nocerts -nodes -out $keyPath -passin pass:$pass
+& 'C:\Program Files\Git\usr\bin\openssl.exe' pkcs12 -in $certPath -clcerts -nokeys -out $crtPath -passin pass:$pass
 Write-Host "generated .key to $keyPath and .crt to $crtPath"
 
 Write-Host "connecting to cluster $endpoint using cert thumbprint $thumbprint..."

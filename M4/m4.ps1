@@ -40,7 +40,7 @@ $armParameters = @{
     aadClientApplicationId = $ClientApplicationId;
   }
 
-New-AzureRmResourceGroupDeployment `
+New-AzResourceGroupDeployment `
   -ResourceGroupName $ResourceGroupName `
   -TemplateFile "$PSScriptRoot\onenode.json" `
   -Mode Incremental `

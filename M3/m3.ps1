@@ -30,10 +30,10 @@ $armParameters = @{
     sourceVaultResourceId = $keyVault.ResourceId;
     certificateUrlValue = $cert.SecretId;
     rdpPassword = $rdpPassword;
-    vmInstanceCount = 5;
+    vmInstanceCount = 1;
   }
 
-New-AzureRmResourceGroupDeployment `
+New-AzResourceGroupDeployment `
   -ResourceGroupName $ResourceGroupName `
   -TemplateFile "$PSScriptRoot\$TemplateName" `
   -Mode Incremental `

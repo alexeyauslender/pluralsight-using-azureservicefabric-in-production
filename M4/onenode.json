@@ -91,7 +91,10 @@
           "sku": {
              "name": "Standard_LRS"
           },
-          "kind": "Storage"
+         "kind": "Storage",
+         "properties": {
+            "allowBlobPublicAccess": false
+         }
        },
        {
           "apiVersion": "2016-01-01",
@@ -101,7 +104,10 @@
           "sku": {
              "name": "Standard_LRS"
           },
-          "kind": "Storage"
+         "kind": "Storage",
+         "properties": {
+            "allowBlobPublicAccess": false
+         }
        },
        {
           "type": "Microsoft.Network/virtualNetworks",
@@ -192,6 +198,44 @@
                          "id": "[variables('lbIPConfig0')]"
                       },
                       "frontendPort": "[variables('fabricHttpGatewayPort')]",
+                      "idleTimeoutInMinutes": 5,
+                      "probe": {
+                         "id": "[variables('lbHttpProbeID0')]"
+                      },
+                      "protocol": "Tcp"
+                   }
+                },
+                 {
+                   "name": "LBPluralSightWebSite",
+                   "properties": {
+                      "backendAddressPool": {
+                         "id": "[variables('lbPoolID0')]"
+                      },
+                      "backendPort": "8242",
+                      "enableFloatingIP": false,
+                      "frontendIPConfiguration": {
+                         "id": "[variables('lbIPConfig0')]"
+                      },
+                      "frontendPort": "9000",
+                      "idleTimeoutInMinutes": 5,
+                      "probe": {
+                         "id": "[variables('lbHttpProbeID0')]"
+                      },
+                      "protocol": "Tcp"
+                   }
+                },
+                 {
+                   "name": "LBPluralSightWebApi",
+                   "properties": {
+                      "backendAddressPool": {
+                         "id": "[variables('lbPoolID0')]"
+                      },
+                      "backendPort": "8382",
+                      "enableFloatingIP": false,
+                      "frontendIPConfiguration": {
+                         "id": "[variables('lbIPConfig0')]"
+                      },
+                      "frontendPort": "9001",
                       "idleTimeoutInMinutes": 5,
                       "probe": {
                          "id": "[variables('lbHttpProbeID0')]"

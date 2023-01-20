@@ -35,7 +35,7 @@ $armParameters = @{
     rdpPassword = GeneratePassword;
   }
 
-New-AzureRmResourceGroupDeployment `
+New-AzResourceGroupDeployment `
   -ResourceGroupName $ResourceGroupName `
   -TemplateFile "$PSScriptRoot\minimal.json" `
   -Mode Incremental `
@@ -44,4 +44,4 @@ New-AzureRmResourceGroupDeployment `
 
 # NOTES
 # for VM sizes see https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes
-# to get the list of all available locations call Get-AzureRmLocation
+# to get the list of all available locations call Get-AzLocation

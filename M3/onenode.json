@@ -82,7 +82,10 @@
           "sku": {
              "name": "Standard_LRS"
           },
-          "kind": "Storage"
+          "kind": "Storage",
+          "properties": {
+               "allowBlobPublicAccess": false
+            }
        },
        {
           "apiVersion": "2016-01-01",
@@ -92,7 +95,10 @@
           "sku": {
              "name": "Standard_LRS"
           },
-          "kind": "Storage"
+          "kind": "Storage",
+          "properties": {
+             "allowBlobPublicAccess": false
+         }
        },
        {
           "type": "Microsoft.Network/virtualNetworks",
@@ -189,6 +195,82 @@
                       },
                       "protocol": "Tcp"
                    }
+                },
+                {
+                  "name": "LBPluralsightWebApiRule",
+                  "properties": {
+                    "backendAddressPool": {
+                      "id": "[variables('lbPoolID0')]"
+                    },
+                    "backendPort": "8382",
+                    "enableFloatingIP": false,
+                    "frontendIPConfiguration": {
+                      "id": "[variables('lbIPConfig0')]"
+                    },
+                    "frontendPort": "8000",
+                    "idleTimeoutInMinutes": 5,
+                    "probe": {
+                      "id": "[variables('lbHttpProbeID0')]"
+                    },
+                    "protocol": "Tcp"
+                  }
+                },
+                {
+                  "name": "LBPluralsightWebSiteRule",
+                  "properties": {
+                    "backendAddressPool": {
+                      "id": "[variables('lbPoolID0')]"
+                    },
+                    "backendPort": "8242",
+                    "enableFloatingIP": false,
+                    "frontendIPConfiguration": {
+                      "id": "[variables('lbIPConfig0')]"
+                    },
+                    "frontendPort": "8001",
+                    "idleTimeoutInMinutes": 5,
+                    "probe": {
+                      "id": "[variables('lbHttpProbeID0')]"
+                    },
+                    "protocol": "Tcp"
+                  }
+                },
+                {
+                  "name": "LBTraefikManagementRule",
+                  "properties": {
+                    "backendAddressPool": {
+                      "id": "[variables('lbPoolID0')]"
+                    },
+                    "backendPort": "8080",
+                    "enableFloatingIP": false,
+                    "frontendIPConfiguration": {
+                      "id": "[variables('lbIPConfig0')]"
+                    },
+                    "frontendPort": "8080",
+                    "idleTimeoutInMinutes": 5,
+                    "probe": {
+                      "id": "[variables('lbHttpProbeID0')]"
+                    },
+                    "protocol": "Tcp"
+                  }
+                },
+                {
+                  "name": "LBTraefikHttpFrontendRule",
+                  "properties": {
+                    "backendAddressPool": {
+                      "id": "[variables('lbPoolID0')]"
+                    },
+                    "backendPort": "80",
+                    "enableFloatingIP": false,
+                    "frontendIPConfiguration": {
+                      "id": "[variables('lbIPConfig0')]"
+                    },
+                    "frontendPort": "80",
+                    "idleTimeoutInMinutes": 5,
+                    "probe": {
+                      "id": "[variables('lbHttpProbeID0')]"
+                    },
+                    "protocol": "Tcp"
+                  }
                 }
              ],
              "probes": [
@@ -317,7 +399,7 @@
                                }
                             },
                             "typeHandlerVersion": "1.5"
-                         }
+                }
                       }
                    ]
                 },
@@ -449,9 +531,13 @@
              ],
              "reliabilityLevel": "None",
              "upgradeMode": "Automatic",
-             "vmImage": "Windows"
-          }
+        "vmImage": "Windows"
+      }
        }
+
+
+
+
     ],
     "outputs": {
        "clusterProperties": {

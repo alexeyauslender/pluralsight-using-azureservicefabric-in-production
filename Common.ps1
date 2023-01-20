@@ -6,10 +6,10 @@ Write-Host "Loaded $($t.FullName)."
 function CheckLoggedIn()
 {
     Write-Host "Validating if you are logged in..."
-    $rmContext = Get-AzureRmContext
+    $rmContext = Get-AzContext
 
     if($rmContext.Account -eq $null) {
-        Write-Host "  you are not logged into Azure. Use Login-AzureRmAccount to log in first and optionally select a subscription" -ForegroundColor Red
+        Write-Host "  you are not logged into Azure. Use Login-AzAccount to log in first and optionally select a subscription" -ForegroundColor Red
         exit
     }
 
@@ -22,11 +22,11 @@ function EnsureResourceGroup([string]$Name, [string]$Location)
 {
     # Prepare resource group
     Write-Host "Checking if resource group '$Name' exists..."
-    $resourceGroup = Get-AzureRmResourceGroup -Name $Name -Location $Location -ErrorAction Ignore
+    $resourceGroup = Get-AzResourceGroup -Name $Name -Location $Location -ErrorAction Ignore
     if($resourceGroup -eq $null)
     {
         Write-Host "  resource group doesn't exist, creating a new one..."
-        $resourceGroup = New-AzureRmResourceGroup -Name $Name -Location $Location
+        $resourceGroup = New-AzResourceGroup -Name $Name -Location $Location
         Write-Host "  resource group created."
     }
     else
@@ -40,11 +40,11 @@ function EnsureKeyVault([string]$Name, [string]$ResourceGroupName, [string]$Loca
     # properly create a new Key Vault
     # KV must be enabled for deployment (last parameter)
     Write-Host "Checking if Key Vault '$Name' exists..."
-    $keyVault = Get-AzureRmKeyVault -VaultName $Name -ErrorAction Ignore
+    $keyVault = Get-AzKeyVault -VaultName $Name -ErrorAction Ignore
     if($keyVault -eq $null)
     {
         Write-Host "  key vault doesn't exist, creating a new one..."
-        $keyVault = New-AzureRmKeyVault -VaultName $Name -ResourceGroupName $ResourceGroupName -Location $Location -EnabledForDeployment
+        $keyVault = New-AzKeyVault -VaultName $Name -ResourceGroupName $ResourceGroupName -Location $Location -EnabledForDeployment
         Write-Host "  Key Vault Created and enabled for deployment."
     }
     else
@@ -117,11 +117,11 @@ function EnsureSelfSignedCertificate([string]$KeyVaultName, [string]$CertName)
 
     #import into vault if needed
     Write-Host "Checking certificate in key vault..."
-    $kvCert = Get-AzureKeyVaultCertificate -VaultName $KeyVaultName -Name $CertName
+    $kvCert = Get-AzKeyVaultCertificate -VaultName $KeyVaultName -Name $CertName
     if($kvCert -eq $null) {
         Write-Host "  importing..."
         $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
-        $kvCert = Import-AzureKeyVaultCertificate -VaultName $KeyVaultName -Name $CertName -FilePath $localPath -Password $securePassword
+        $kvCert = Import-AzKeyVaultCertificate -VaultName $KeyVaultName -Name $CertName -FilePath $localPath -Password $securePassword
     } else {
         Write-Host "  certificate already imported."
     }

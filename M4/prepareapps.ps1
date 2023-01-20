@@ -8,7 +8,7 @@ param(
 CheckLoggedIn
 
 # get current context information to simplify calling the main script
-$azureContext = Get-AzureRmContext
+$azureContext = Get-AzContext
 $tenantId = $azureContext.Tenant.Id
 $replyUrl = "https://$ClusterName.$RegionShortName.cloudapp.azure.com:19080/Explorer/index.html"
 
